@@ -48,7 +48,7 @@ ADD resources/mysqlclient.sh /
 ENV GF_HOME /opt/glassfish4
 ENV PATH $PATH:$GF_HOME/bin
 
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/jre/
 
 # RUN wget sirocco-VERSION.ear
 RUN asadmin start-domain
