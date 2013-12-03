@@ -16,7 +16,7 @@ RUN echo "mysql-server-5.5 mysql-server/root_password seen true" | debconf-set-s
 RUN echo "mysql-server-5.5 mysql-server/root_password_again seen true" | debconf-set-selections
 
 RUN apt-get install -y software-properties-common python-software-properties
-RUN add-apt-repository ppa:webupd8team/java
+RUN add-apt-repository ppa:webupd8team/java -y
 RUN apt-get update
 RUN echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
 

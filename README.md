@@ -24,6 +24,12 @@ This is not the fastest solution, but you can do it...
     # Wait...
     sudo ./run.sh
 
+### Test your Sirocco EAR
+
+Once compiled, copy the EAR to the docker container then
+
+    asadmin deploy sirocco.ear
+
 ## License
 
 MIT
