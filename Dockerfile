@@ -10,8 +10,8 @@ RUN apt-get update
 
 
 # Set the mysql configuration to avoid prompts
-RUN echo "mysql-server-5.5 mysql-server/root_password password root123" | sudo debconf-set-selections
-RUN echo "mysql-server-5.5 mysql-server/root_password_again password root123" | sudo debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password password root123" | debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password_again password root123" | debconf-set-selections
 RUN echo "mysql-server-5.5 mysql-server/root_password seen true" | debconf-set-selections
 RUN echo "mysql-server-5.5 mysql-server/root_password_again seen true" | debconf-set-selections
 
