@@ -11,7 +11,8 @@ This assumes that you have docker installed somewhere. If not: **RTFM**.
 
 You can run the container from the docker index. 
 
-    docker run -d -t chamerling/glassfish4sirocco
+    # interactive mode
+    docker run -t -i chamerling/glassfish4sirocco:latest /bin/bash
 
 ### Run from sources
 
@@ -19,9 +20,9 @@ This is not the fastest solution, but you can do it...
 
     git clone https://github.com/chamerling/glassfish4sirocco.git
     cd glassfish4sirocco
-    sh build.sh
+    sudo ./build.sh
     # Wait...
-    sh run.sh
+    sudo ./run.sh
 
 ## License
 

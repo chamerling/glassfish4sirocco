@@ -15,43 +15,53 @@ RUN echo "mysql-server-5.5 mysql-server/root_password_again password root123" | 
 RUN echo "mysql-server-5.5 mysql-server/root_password seen true" | debconf-set-selections
 RUN echo "mysql-server-5.5 mysql-server/root_password_again seen true" | debconf-set-selections
 
-RUN apt-get install -y zip wget curl build-essential mysql-server-5.5
+RUN apt-get install -y software-properties-common python-software-properties
+RUN add-apt-repository ppa:webupd8team/java
+RUN apt-get update
+RUN echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
+
+RUN apt-get install -y zip wget curl build-essential mysql-server-5.5 git-core oracle-java7-installer
 
 ADD resources/cfgmysql.sh /tmp/
 RUN chmod +x /tmp/cfgmysql.sh
 RUN /tmp/cfgmysql.sh
 RUN rm /tmp/cfgmysql.sh
 
+ADD resources/glassfish.sh /tmp/
+RUN chmod +x /tmp/glassfish.sh
+RUN /tmp/glassfish.sh
+RUN rm /tmp/glassfish.sh
+
+RUN git clone https://github.com/ow2-sirocco/sirocco.git
+RUN cp /sirocco/etc/glassfish_config/* /opt/glassfish4/glassfish/domains/domain1/config
+
+ADD resources/sirocco_sql.sh /tmp/sirocco_sql.sh
+RUN chmod +x /tmp/sirocco_sql.sh
+RUN mysql -usirocco -psirocco < /sirocco/etc/db/sirocco_db.sql
+
+# Scripts...
+
 ADD resources/start.sh /
 RUN chmod +x /start.sh
+ADD resources/mysqlclient.sh /
 
-#RUN wget http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip
-#RUN mv /glassfish-4.0.zip /opt; cd /opt; unzip glassfish-4.0.zip; rm glassfish-4.0.zip
+ENV GF_HOME /opt/glassfish4
+ENV PATH $PATH:$GF_HOME/bin
 
-# Install glassfish from archive
-
-#ENV GF_HOME /opt/glassfish4
-#ENV PATH $PATH:$JAVA_HOME/bin:$GF_HOME/bin
-#RUN cp /sirocco/etc/glassfish_config/* /opt/glassfish4/glassfish/domains/domain1/config
-
-#ADD etc/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
-#CMD ["/usr/bin/mysqld_safe"]
-
-#ADD etc/sirocco_init.sql /sirocco_init.sql
-#RUN mysql -u root -proot </sirocco_init.sql
-
-#ADD /sirocco/etc/db/sirocco_db.sql /sirocco_db.sql
-#RUN mysql -usirocco -psirocco < /sirocco_init.sql
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
 
 # RUN wget sirocco-VERSION.ear
-
-# RUN asadmin start-domain
+RUN asadmin start-domain
 # RUN asadmin deploy sirocco-VERSION.ear
 
 
 # Expose public and admin ports
-# EXPOSE 3306 4848 8080 8181 8686 7676 3700 3820 3920
-EXPOSE 3306
+EXPOSE 3306 4848 8080 8181 8686 7676 3700 3820 3920
 
-CMD ["/start.sh"]
+ADD resources/host.sh /
+RUN chmod +x /host.sh
+RUN /host.sh
+RUN rm /host.sh
+
+#CMD ["/start.sh"]
 
