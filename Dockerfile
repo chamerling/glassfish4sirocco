@@ -8,13 +8,14 @@ MAINTAINER Christophe Hamerling "christophe.hamerling@gmail.com"
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
 
-RUN apt-get install -y zip wget curl build-essential mysql-server
 
 # Set the mysql configuration to avoid prompts
-RUN echo "mysql-server mysql-server/root_password password root123" | sudo debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password_again password root123" | sudo debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password seen true" | debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password_again seen true" | debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password password root123" | sudo debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password_again password root123" | sudo debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password seen true" | debconf-set-selections
+RUN echo "mysql-server-5.5 mysql-server/root_password_again seen true" | debconf-set-selections
+
+RUN apt-get install -y zip wget curl build-essential mysql-server-5.5
 
 ADD resources/cfgmysql.sh /tmp/
 RUN chmod +x /tmp/cfgmysql.sh
