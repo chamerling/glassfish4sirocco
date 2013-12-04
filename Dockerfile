@@ -37,7 +37,7 @@ RUN cp /sirocco/etc/glassfish_config/* /opt/glassfish4/glassfish/domains/domain1
 
 ADD resources/sirocco_sql.sh /tmp/sirocco_sql.sh
 RUN chmod +x /tmp/sirocco_sql.sh
-RUN mysql -usirocco -psirocco < /sirocco/etc/db/sirocco_db.sql
+RUN /tmp/sirocco_sql.sh
 
 # Scripts...
 
@@ -53,7 +53,6 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/jre/
 # RUN wget sirocco-VERSION.ear
 RUN asadmin start-domain
 # RUN asadmin deploy sirocco-VERSION.ear
-
 
 # Expose public and admin ports
 EXPOSE 3306 4848 8080 8181 8686 7676 3700 3820 3920
