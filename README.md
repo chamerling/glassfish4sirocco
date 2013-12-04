@@ -30,6 +30,16 @@ Once compiled, copy the EAR to the docker container then
 
     asadmin deploy sirocco.ear
 
+### Misc
+
+If you run docker on OS X and need to forward all the ports from docker through Vagrant:
+
+    export FORWARD_DOCKER_PORTS=1
+
+Then you can start Vagrant
+
+    vagrant up
+
 ## License
 
 MIT
