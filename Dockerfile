@@ -48,12 +48,6 @@ ENV GF_HOME /opt/glassfish4
 ENV PATH $PATH:$GF_HOME/bin
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/jre/
 
-# Update /etc/host to be able to run glassfish
-ADD resources/host.sh /
-RUN chmod +x /host.sh
-RUN /host.sh
-RUN rm /host.sh
-
 # Expose public and admin ports
 EXPOSE 3306 4848 8080 8181 8686 7676 3700 3820 3920
 
