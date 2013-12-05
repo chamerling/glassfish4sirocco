@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/mysql -proot123
+/usr/bin/mysql -usirocco -psirocco sirocco
